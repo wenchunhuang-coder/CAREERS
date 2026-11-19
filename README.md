@@ -1,29 +1,28 @@
-# �d�����x�H����ƶ������
+# 康橋應徵人員資料填報網站
 
-�̡m���x�H���򥻸�ƶ���t�λݨD�W��� v1.2�n�s�@�� Sites Worker �M�סC
+依《應徵人員基本資料填報系統需求規格書 v1.2》製作的 Sites Worker 專案。
 
-## ���p�e�������ҳ]�w
+## 部署前必備環境設定
 
-Sites �|�� `.openai/hosting.json` �j�w D1 �P R2�C�ҥΦ���e�A���b Sites �����ܼƳ]�w�G
+Sites 會依 `.openai/hosting.json` 綁定 D1 與 R2。啟用收件前，須在 Sites 環境變數設定：
 
-- `RESEND_API_KEY`�G�l��A�� API ���_�]secret�^
-- `RESEND_FROM`�G�w�Ѷl��A�����Ҫ��H��̦a�}
-- `HR_EMAILS`�G�H����v�H�c�A�ϥγr�����j
-- `SESSION_SECRET`�G�ܤ� 32 �줸�ժ��H���n�Jñ���K�_�]secret�^
-- `OTP_PEPPER`�G�H�� OTP ����K�_�]secret�^
+- `RESEND_API_KEY`：郵件服務 API 金鑰（secret）
+- `RESEND_FROM`：已由郵件服務驗證的寄件者地址
+- `HR_EMAILS`：人資授權信箱，使用逗號分隔
+- `SESSION_SECRET`：至少 32 位元組的隨機登入簽章密鑰（secret）
+- `OTP_PEPPER`：隨機 OTP 雜湊密鑰（secret）
 
-���]�w�H��A�ȩΤH����v�H�c�ɡAOTP ���ҤΤH��n�J�|�ڵ��ШD�A���|���Ѵ��սX��¶�L���ҡC
+未設定寄件服務或人資授權信箱時，OTP 驗證及人資登入會拒絕請求，不會提供測試碼或繞過驗證。
 
-## ��ƻP����
+## 資料與附件
 
-- D1 �O�s���x��ơB��Z�B¾�ʡBOTP ����ν]�֬����C
-- R2 �O�s�p������FWorker ���إߤ��}���� URL�C
-- `drizzle/0000_applicants.sql` �إ߸�ƪ��P���ޡC
-- �|�ݸɤW�����Ӹ�i����r�B����q���H�Ψ̾Ǯծ֩w���e�ե��U�Կﶵ�C
+- D1 保存應徵資料、草稿、職缺、OTP 雜湊及稽核紀錄。
+- R2 保存私有附件；Worker 不建立公開附件 URL。
+- `drizzle/0000_applicants.sql` 建立資料表與索引。
+- 尚需補上正式個資告知文字、收件通知信及依學校核定內容校正下拉選項。
 
-## �ثe�d��
+## 目前範圍
 
-�e�x�]�t���w¾�ʻP�H�~��Ʈw�J�f�B���y�����BEmail ���ҡB�򥻸�ơB�Ǿ����y�����V�m���u�@�g�����ҷӡB�L�СB����p���H�B���ƪ���B��Z�ΰe��w���C�H�ꤶ���]�t¾�ʫإߡB���x�̲M��B���A���@�B��Ƨ󥿽]�ֻP CSV �ץX�C
+前台包含指定職缺與人才資料庫入口、雙語切換、Email 驗證、基本資料、學歷／語言／訓練／工作經歷／證照、兵役、緊急聯絡人、必備附件、草稿及送件預覽。人資介面包含職缺建立、應徵者清單、狀態維護、資料更正稽核與 CSV 匯出。
 
-������ 15 ��ʦs�ѤH��d�ߡ��ץX�ɰ������ˬd�F�������ҭY���b�L�H�n�J�ɷǮɫʦs�A�ݥ[�W�Ƶ{Ĳ�o���C
-
+未錄取 15 日封存由人資查詢／匯出時執行到期檢查；正式環境若須在無人登入時準時封存，需加上排程觸發器。
